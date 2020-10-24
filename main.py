@@ -1,13 +1,13 @@
 import os
 import re
 
-def env(location:str =".", error:bool =False):
-    if not os.path.exists(os.path.join(location,".env")):
+def env(location:str =".", error:bool=False,output="dict"):
+    if not os.path.exists(os.path.join(location,".env")) or output not in ["dict","obj"]:
         return None
     path = os.path.join(location,".env")
     content = {}
     count = 0
-    p = re.compile(r"([\w\.-]+)=([\w\.-]+)")
+    p = re.compile(r"([\w\.\-\_\:\/\\]+)=([\w\.\-\_\:\/\\]+)")
     with open(path,"r") as env:
         line = env.readline()
         while line != "":
@@ -20,7 +20,7 @@ def env(location:str =".", error:bool =False):
                 content[_split[0]] = _split[1]
                 count += 1
             line = env.readline()
-    return Env(content, count)
+    return Env_dict(content,count) if output == "dict" else Env_obj(content,count)
     
 def exist(obj:object,key:str):
     try:
@@ -30,10 +30,21 @@ def exist(obj:object,key:str):
         return False
 
 class Env(object):
-    def __init__(self,content,count):
-        self.content = content
-        self.count = count
+    pass
 
-test = env(error=True)
-if test:
-    print(test.content)
+class Env_dict(object):
+    def __init__(self,content,count):
+        self.count = count
+        self.content = content
+
+class Env_obj(object):
+    def __init__(self,content,count):
+        self.count = count
+        self.compile(content)
+    
+    def compile(self,content):
+        for key,value in content.items():
+            exec(f"self.{key} = \"{value}\"")
+
+
+test:Env = env(error=True)

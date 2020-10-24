@@ -1,33 +1,70 @@
 # pyEnv
 
-Portage de la fonctionnalité env de JS sur python
+Adaptation of the js module env in python
 
-## Utilisation :
+## How to use :
 ```python
 from pyenv import env
 
-env = env()
+env:Env = env()
 ```
 
-## Structure de env : 
-* content : Dictionnaire contenant les noms de variables et leurs valeurs
-* count : contiend le nombres de variables d'environement valide
-## Valeurs de retour possible
-* None : Le fichier .env n'a pas été trouvé
-* structure env : Au moins une valeur valide a été trouvée dans le fichier .env
+## env's structure : 
+There are 2 different structures : in dictionnary or in object :
+* Dictionnary (Env_dict class) contain two variable : 
+  * content : An object who contain all couple <key,value> match by the algorithm 
+  * count : Number of couple match
+* Object (Env_obj class) contain :
+  * count : Number of couple match
+  * an attribute for each match variable in the .env file
+    * Exemple : if .env contain aaa=bbb, env.aaa contain bbb (In string)
 
-## Arguments annexe
-* location (str) : Il est possible de spécifier une localisation spéciale du fichier .env (pour les projet partagent le même fichier)
-  * utilisation : 
+  Note : Env_obj is in beta because he is buggy : in fact, most of IDE give an error because all attribute (except count) is create dynamiquely. I try to search an optional method to fix that
+
+Dev note : Soon, the algorithm will inculde integer conversion
+
+## Return value
+* None : No .env file was found and/or output value not correct
+* Env structure
+  * Env_dict by default (output=dict)
+  * Env_obj if output=obj
+
+  Note : you can check if there is no match in the .env file by 
+  ```python
+  env.count == 0
+  ```
+
+## Optionnal argument
+* location (str) : Specify a path (relative or absolute) to the .env file
+  * Using : 
   ```python
   env = env(location=path_to_.env)
   ```
-  * Valeur par default : "." (pwd)
-* error (bool) : Afficher les erreurs
-  * utilisation : 
+  * Default value : "." (pwd)
+* error (bool) : Display error
+  * Using : 
   ```
   env = env(error=True)
   ```
-  * Valeur par default : False
+  * Default value : False
+* output (str) : output format
+  * Using: 
+    ```python
+    env = env(output="obj")
+    ```
+  * Default value : dict
 
-
+## Value specification
+The algorithm will match with :
+* Character specification 
+  * any word character (lowercase and uppercase)
+  * .
+  * /
+  * :
+  * \
+  * _
+  * \-
+* Patern specification
+  * The right patern is the folowing : (Character specification)=(Character specification)
+  * Please note there is no sepearation between the Character specification and = symbol, and space is not a valable character
+* You can use comment with the # character
