@@ -44,7 +44,5 @@ class Env_obj(object):
     
     def compile(self,content):
         for key,value in content.items():
-            exec(f"self.{key} = \"{value}\"")
+            setattr(self,key,value)
 
-
-test:Env = env(error=True)
