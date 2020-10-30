@@ -1,23 +1,24 @@
 # pyEnv
 
-Adaptation of the js module env in python
+Adaptation of the js module environ in python
 
 ## How to use :
 ```python
-from pyenv import env
+from pyEnv import env
 
 env:Env = env()
 ```
 
 ## env's structure : 
 There are 2 different structures : in dictionnary or in object :
-* Dictionnary (Env_dict class) contain two variable : 
+* Dictionnary (Env class) contain two variable : 
   * content : An object who contain all couple <key,value> match by the algorithm 
-  * count : Number of couple match
+  * environ : An another object who contain all environnement variable avariable
+  * count : Number of couple match in .env file
 * Object (Env_obj class) contain :
   * count : Number of couple match
   * an attribute for each match variable in the .env file
-    * Exemple : if .env contain aaa=bbb, env.aaa contain bbb (In string)
+    * Exemple : if .env contain aaa=bbb, env.aaa contain bbb (String type)
 
   Note : Env_obj is in beta because he is buggy : in fact, most of IDE give an error because all attribute (except count) is create dynamiquely. I try to search an optional method to fix that
 
@@ -46,6 +47,12 @@ Dev note : Soon, the algorithm will inculde integer conversion
   ```
   env = env(error=True)
   ```
+  * Default value : False
+* warning (bool) : Display warning
+  * Using : 
+    ```
+    env = env(warning=True)
+    ```
   * Default value : False
 * output (str) : output format
   * Using: 

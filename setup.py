@@ -11,17 +11,20 @@ setup(
   author="Leer0r",
   author_email="avedd72@gmail.com",
   license='MIT',
-  description='Portage de la fonctionnalité env de JS sur python',
-  py_module=["pyenv"],
-  package_dir={"":'src'},
+  description='Adaptation of the js module environ in python',
   url="https://github.com/Leer0r/pyEnv.git",
+  download_url = 'https://github.com/Leer0r/pyEnv/archive/v_01.tar.gz',
   install_requires=[
-    're'
+    're',
+    'os'
   ],
-  python_requires='>=3.7',
+  python_requires='>=3.6',
   classifiers=[
     "Programming Language :: Python :: 3",
     "Development Status :: 4 - Beta",
+    'Topic :: Software Development :: Build Tools',
+    'Programming Language :: Python :: 3.6',
     "Programming Language :: Python :: 3.7",
+    'Programming Language :: Python :: 3.8',
   ],
 )
