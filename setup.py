@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from distutils.core import setup
 from readme_renderer.markdown import render
 
 long_description = ""
